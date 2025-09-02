@@ -1,0 +1,8 @@
+requests # to work with the api
+pandas # to work with dataframes
+matplotlib # to plot data
+seaborn # to make plots prettier
+python-dotenv 
+""" to load environment variables from .env file
+hides sensitive info and easily portable """
+numpy # for numerical operations
