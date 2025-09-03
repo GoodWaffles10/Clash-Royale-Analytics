@@ -23,6 +23,7 @@ class Player:
             "wins": raw["wins"],
             "losses": raw["losses"],
             "battleCount": raw["battleCount"],
+            "winrate": round(raw["wins"] / raw["battleCount"] * 100, 2) if raw["battleCount"] > 0 else 0,
         } 
 
         return self.player_data
