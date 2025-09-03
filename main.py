@@ -1,41 +1,32 @@
 
+import os
 from datetime import datetime
 import pandas as pd
+from player import Player
 
-from api import fetch_player_data, fetch_battlelog
+data_folder = "player_data"
+os.makedirs(data_folder, exist_ok=True) # creates folder if it doesnt exist
 
-player_data = fetch_player_data()
-battlelog = fetch_battlelog()
+# dont include hashtags in tags
+players = [
+    Player("J8J8QR8YU"),
+    Player("LJ0RQCY8R"),
+    Player("CJLYGCJ8G"),
+    Player("U2282JYGL"),
+]
 
-if player_data is None:
-    print("failed to fetch player data, exiting")
-    exit()
-if battlelog is None:
-    print("failed to fetch battlelog, exiting")
-    exit()
+for player in players:
+    player.filter_player_data()
+    df = player.to_player_dataframe()
 
-player_row = {
-    "timestamp": datetime.now().isoformat(),
-    "name": player_data["name"],
-    "tag": player_data["tag"],
-    "trophies": player_data["trophies"],
-    "wins": player_data["wins"],
-    "losses": player_data["losses"],
-    "battleCount": player_data["battleCount"],
-}
+    csv_file = os.path.join(data_folder, f"{player.player_tag}.csv")
 
-# wrap in DataFrame for concatenation
-player_row_df = pd.DataFrame([player_row])
+    try:
+        df_existing = pd.read_csv(csv_file)
+        df = pd.concat([df_existing, df], ignore_index=True)
+    except FileNotFoundError:
+        pass
 
-# Try to load CSV; if it fails, create new DataFrame
-try:
-    df_player = pd.read_csv("player_data.csv")
-    df_player = pd.concat([df_player, player_row_df], ignore_index=True)
-except FileNotFoundError:
-    df_player = player_row_df
+    df.to_csv(csv_file, index=False)
 
-# save to csv
-df_player.to_csv("player_data.csv", index=False)
-
-# after saving to csv, open in excel, google sheets, or vsc csv viewer
-print(df_player)
+    print(f"Data for player {player.player_tag} saved to {csv_file}")
