@@ -13,6 +13,7 @@ players = [
     Player("LJ0RQCY8R"),
     Player("CJLYGCJ8G"),
     Player("U2282JYGL"),
+    Player("V2PV9LGUV"),
 ]
 
 for player in players:
