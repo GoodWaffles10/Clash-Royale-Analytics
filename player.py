@@ -15,7 +15,7 @@ class Player:
             return None
 
         self.player_data = {
-            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M"),
+            "timestamp": datetime.now().strftime("%m/%d/%y %H:%M"),
             "name": raw["name"],
             "player_tag": raw["tag"],
             "trophies": raw["trophies"],
