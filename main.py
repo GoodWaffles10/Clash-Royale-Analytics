@@ -34,7 +34,10 @@ for player in players:
         df = pd.concat([df_existing, df], ignore_index=True)
     except FileNotFoundError:
         pass
+
+    df.to_csv(csv_file, index=False)
     
+
     def remove_dupes(path):
         if os.path.exists(path):
             os.remove(path)
@@ -44,11 +47,9 @@ for player in players:
     remove_dupes(os.path.join(player_folder, f"{folder_name}_trophy_history_past_week.png"))
     plotting.plot_trophy_history_over_days(csv_file, os.path.join(player_folder, f"{folder_name}_trophy_history_days.png"))
     plotting.plot_trophy_history_over_battles(csv_file, os.path.join(player_folder, f"{folder_name}_over_all_battles.png"))
-    plotting.plot_trophy_history_past_week(csv_file, os.path.join(player_folder, f"{folder_name}_trophy_history_past_week.png"))
+    plotting.plot_trophy_history_past_week(csv_file, os.path.join(player_folder, f"{folder_name}_trophy_history_past_week.png"))    
+    
 
-    df.to_csv(csv_file, index=False)
-    
-    
     print(f"Data for player {player.player_tag} saved to {csv_file}")
 
-
+print("All player data updated.")
